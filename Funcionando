@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "Criando o quarto script em Shell para conhecer mais comandos"
+ech "A data de eh: $(date)"
