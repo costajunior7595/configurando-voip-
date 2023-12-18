@@ -1,0 +1,65 @@
+1- Necessidade da Infra-Estrutura
+* 4 Compuatdores na sala de atendimento
+* 1 Computador na sala do Gerente
+* 1 Computador na tesouraria
+
+2- Dada a rede 192.168.0.0/24
+* cirar VLAN para VOICE, DADOS E MANAGER.
+
+3- Configuracao basica do SWITCH-2901
+
+    > enable
+    >clock set 20:30:00 18 December 2023
+    >configure terminal
+    >hostname sw-3-vlan
+    >service password-encryption
+    >service timestamps log datetime msec
+    >no ip domain-lookup
+    >banner motd #AVISO: ONLY STAFF#
+    >enable secret cisco
+    >username admin pivilege 15 secret cisco
+    >username pessoalIT secret cisco
+    >line console 0
+    >login local
+    >password cisco
+    >logging synchronous
+    >exec-timeout 3 30
+    >line vty 0 1
+    >login local 
+    >password cisco
+    >logging synchronous
+    >exec-timeout 3 30
+    >end
+    >write
+
+
+    >vlan 100
+    >name VOICE
+    >exti
+    >vlan 101
+    >name DADOS
+    >vlan 102
+    >name Manager
+    >interface FastEThernet 0/1 - 6
+    >switchport mode access
+    >switchport VOICE vlan 100
+    >mls qos trust cos
+    >exit
+    >interface FastEthernet 0/24
+    >switchport mode access
+    >switchport access vlan 102
+    >exit
+    >interface FastEThernet 0/10 - 15
+    >switchport mode access
+    >switchport access vlan 101
+    >end
+    >write
+
+    >interface GIgabitEThernet 0/1
+    >switchport mode trunk
+    >switchport trunk allowed vlan 100,101,102
+    >switchport nonegotiate
+    >switchport trunk native vlan 102
+    >end
+    >copy running-config startup-config
+    >inter
